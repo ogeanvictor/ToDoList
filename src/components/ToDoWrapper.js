@@ -6,20 +6,25 @@ import { Task } from './Task'
 
 
 export const ToDoWrapper = () => {
-    const [showTask, setShowTask] = useState([]);
+    const [tasks, setTasks] = useState([]);
 
-    const addTodo = (todo) => {
-        setShowTask([
-            ...showTask, 
-            {id:uuidv4(), task: todo, completed: false, isEditing: false}
+    const addTodo = (task) => {
+        setTasks([
+            ...tasks, 
+            {id:uuidv4(), task: task, completed: false, isEditing: false}
         ])
+    }
+
+    const toogleComplete = (id) => {
+        setTasks(tasks.map(task => task.id === id ? {...task, completed: !task.completed} : task))
     }
     
   return (
     <div className='todo-wrapper'>
+        <h1>Completar Tarefas!</h1>
         <ToDoForm addTodo={addTodo} />
-        {showTask.map((todo, index) => (
-            <Task task={todo.task} key={index}/>
+        {tasks.map((task, index) => (
+            <Task task={task} key={index} toogleComplete={toogleComplete}/>
         ))}
     </div>
   )
